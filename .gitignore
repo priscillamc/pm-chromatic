@@ -1,0 +1,7 @@
+Thumbs.db
+.DS_Store
+*.orig
+node_modules
+.sass-cache
+.npm-debug.log
+tmp
