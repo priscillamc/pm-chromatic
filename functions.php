@@ -15,6 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @param  string $display
  * @param  string $editlink
  * @return array
+ * @since 1.0
  */
 function pm_chromatic_meta_info_blocks( $blocks, $context, $display, $editlink ){
 	
@@ -57,6 +58,7 @@ add_filter( 'hoot_meta_info_blocks', 'pm_chromatic_meta_info_blocks', 10, 4 );
  * @param  string $context
  * @return string
  * @see chromatic-premium/template-parts/content.php
+ * @since 1.0
  */
 function pm_chromatic_default_archive_location( $archive_template, $archive_type, $context ){
 	if ( is_post_type_archive( 'jetpack-portfolio' ) || is_tax( 'jetpack-portfolio-type' ) || is_tax( 'jetpack-portfolio-tag' ) ){
@@ -67,3 +69,49 @@ function pm_chromatic_default_archive_location( $archive_template, $archive_type
 	return $archive_template;
 }
 add_filter( 'hoot_default_archive_location', 'pm_chromatic_default_archive_location', 10, 3 );
+
+
+/**
+ * Register Sidebars
+ * 
+ * @since 1.0
+ */
+function pm_chromatic_sidebars() {
+
+	$args = array(
+		'id'            => 'main_content',
+		'class'         => 'pm-chromatic-main-content-sidebar',
+		'name'          => __( 'Main Content Sidebar', 'pm-chromatic' ),
+		'description'   => __( 'Sidebar appears before the main content', 'pm-chromatic' ),
+		'before_widget'	=> '<div id="%1$s" class="widget %2$s">',
+		'after_widget'	=> '</div>',
+	);
+	register_sidebar( $args );
+
+}
+add_action( 'widgets_init', 'pm_chromatic_sidebars' );
+
+/**
+ * Display the main content sidebar
+ * 
+ * @since 1.0
+ */
+function pm_chromatic_after_main_start(){
+	get_sidebar( 'main_content' );
+}
+add_action( 'hoot_template_main_start', 'pm_chromatic_after_main_start' );
+
+/**
+ * Remove the default portfolio description
+ * 
+ * @param  string $description
+ * @return string
+ * @since 1.0
+ */
+function pm_chromatic_loop_description( $description ){
+	if ( is_post_type_archive('jetpack-portfolio') ){
+		$description = '';
+	}
+	return $description;
+}
+add_filter( 'hoot_loop_description', 'pm_chromatic_loop_description' );
