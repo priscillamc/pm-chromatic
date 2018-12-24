@@ -97,7 +97,9 @@ add_action( 'widgets_init', 'pm_chromatic_sidebars' );
  * @since 1.0
  */
 function pm_chromatic_after_main_start(){
-	get_sidebar( 'main_content' );
+	if ( !is_front_page() || !is_home() ){
+		get_sidebar( 'main_content' );
+	}
 }
 add_action( 'hoot_template_main_start', 'pm_chromatic_after_main_start' );
 
