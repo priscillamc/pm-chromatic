@@ -7,18 +7,21 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 // END ENQUEUE PARENT ACTION
 
+include get_stylesheet_directory() . '/premium/php-compatibility-8.2-hoot.php';
+include get_stylesheet_directory() . '/premium/php-compatibility-8.2-hoot-theme.php';
+
 /**
  * Change the meta block content
  * 
  * @param  array $blocks
- * @param  string $context 
+ * @param  string $context
  * @param  string $display
  * @param  string $editlink
  * @return array
  * @since 1.0
  */
 function pm_chromatic_meta_info_blocks( $blocks, $context, $display, $editlink ){
-	
+
 	// Display last modified date for posts
 	if ( !empty( $display['date'] ) ) :
 		if ( is_category() || is_tag() || is_singular('post') ):
@@ -26,7 +29,7 @@ function pm_chromatic_meta_info_blocks( $blocks, $context, $display, $editlink )
 			$blocks['date']['content'] = '<time ' . hoot_get_attr( 'entry-published' ) . '>' . get_the_modified_date() . '</time>';
 		endif;
 	endif;
-	
+
 	// Display project types on archive and singular pages
 	if ( !empty( $display['cats'] ) && (is_post_type_archive( 'jetpack-portfolio' ) || is_singular( 'jetpack-portfolio' )) ) :
 		$term_list = get_the_term_list( get_the_ID(), 'jetpack-portfolio-type', '', ', ', '' );
@@ -35,7 +38,7 @@ function pm_chromatic_meta_info_blocks( $blocks, $context, $display, $editlink )
 			$blocks['cats']['content'] = $term_list;
 		endif;
 	endif;
-	
+
 	// Display project tags only on singular pages
 	if ( is_singular( 'jetpack-portfolio' ) ) :
 		$term_list = get_the_term_list( get_the_ID(), 'jetpack-portfolio-tag', '', ', ', '' );
@@ -52,8 +55,8 @@ add_filter( 'hoot_meta_info_blocks', 'pm_chromatic_meta_info_blocks', 10, 4 );
 
 /**
  * Add Jetpack Portfolio post type templates
- * 
- * @param  string $archive_template 
+ *
+ * @param  string $archive_template
  * @param  string $archive_type
  * @param  string $context
  * @return string
@@ -73,7 +76,7 @@ add_filter( 'hoot_default_archive_location', 'pm_chromatic_default_archive_locat
 
 /**
  * Register Sidebars
- * 
+ *
  * @since 1.0
  */
 function pm_chromatic_sidebars() {
@@ -93,7 +96,7 @@ add_action( 'widgets_init', 'pm_chromatic_sidebars' );
 
 /**
  * Display the main content sidebar
- * 
+ *
  * @since 1.0
  */
 function pm_chromatic_after_main_start(){
@@ -105,7 +108,7 @@ add_action( 'hoot_template_main_start', 'pm_chromatic_after_main_start' );
 
 /**
  * Remove the default portfolio description
- * 
+ *
  * @param  string $description
  * @return string
  * @since 1.0
